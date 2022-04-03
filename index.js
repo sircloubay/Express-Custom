@@ -6,6 +6,10 @@ const routes = require('./app/routes/routes')
 const port = 3000
 const app = express()
 
+// ejs
+app.set('views', path.join(__dirname, 'app/views'))
+app.set('view engine', 'ejs')
+
 // configuration
 app.use(cors())
 app.use(bodyParser.json({}))
