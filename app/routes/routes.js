@@ -1,8 +1,17 @@
+const controller = require('../controller/controller')
 
 module.exports = (app) => {
   // homepage
-  app.get('/', (req, res) => {
-    res.send(200)
+  app.get('/data/:table', (req, res) => {
+    controller.getDataCollection(req, res)
   })
-  // other page
+
+  app.get('/data/:table/:field/:value', (req, res) => {
+    controller.getDataDetail(req, res)
+  })
+
+  app.put('/update', (req, res) => {
+    controller.update(req, res)
+  })
+
 }
