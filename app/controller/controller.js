@@ -10,5 +10,9 @@ exports.getDataDetail = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
-  await action.update('express', req.body, res)
+  await action.update('mahasiswa', req.body, res)
+}
+
+exports.insert = async (req, res) => {
+  await action.insert('mahasiswa', req.body, res)
 }
