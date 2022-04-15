@@ -10,7 +10,11 @@ module.exports = (app) => {
     controller.getDataDetail(req, res)
   })
 
-  app.put('/update', (req, res) => {
+  app.put('/', (req, res) => {
     controller.update(req, res)
+  })
+
+  app.post('/', (req, res) => {
+    controller.insert(req, res)
   })
 }
