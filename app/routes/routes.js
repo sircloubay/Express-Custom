@@ -17,4 +17,9 @@ module.exports = (app) => {
   app.post('/', (req, res) => {
     controller.insert(req, res)
   })
+
+  app.delete('/', (req, res) => {
+    controller.delete(req, res)
+  })
+
 }
