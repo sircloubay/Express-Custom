@@ -16,3 +16,11 @@ exports.update = async (req, res) => {
 exports.insert = async (req, res) => {
   await action.insert('mahasiswa', req.body, res)
 }
+
+exports.delete = async (req, res) => {
+  const table = req.body.table
+  const field = req.body.field
+  const value = req.body.value
+  await action.delete(table, field, value, res)
+}
+
