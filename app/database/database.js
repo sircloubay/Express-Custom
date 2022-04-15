@@ -1,5 +1,7 @@
 const mysql = require('mysql')
+const resend = require('../helper/resend')
 
+// configuration in database
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -7,6 +9,7 @@ const connection = mysql.createConnection({
   database: 'express'
 })
 
+//create connection
 connection.connect((err) => {
   if (err) {
     console.log(err)
@@ -15,26 +18,30 @@ connection.connect((err) => {
   }
 })
 
+// method get collection
 exports.getCollection = (table, res) => {
   connection.query(`SELECT * FROM ${table}`, (err, result, field) => {
     if (err) {
-      throw err
+      resend(res,404,err)
+    }else{
+      resend(res,200,result)
     }
-    res.json(result)
-    res.end()
+    
   })
 }
 
+// method get data by field
 exports.getBy = (req, res) => {
   connection.query(`SELECT * FROM ${req.params.table} WHERE ${req.params.field}='${req.params.value}'`, (err, result, field) => {
     if (err) {
-      throw err
+      resend(res,404,err)
+    }else{
+      resend(res,200,result)
     }
-    res.json(result)
-    res.end()
   })
 }
 
+// method update
 exports.update = (table, data, res) => {
   let sql = `UPDATE ${table} SET`
   const key = Object.keys(data)
@@ -66,15 +73,19 @@ exports.update = (table, data, res) => {
   // excute
   connection.query(sql, value, (err, rows) => {
     if (err) {
-      res.json(err)
-      res.end()
+      resend(res,404,{'message':'Gagal Memperbarui Data'})
     } else {
-      res.json(rows)
-      res.end()
+      if( rows.affectedRows > 0){
+        resend(res,200,{'message':'Berhasil Memperbarui Data'})
+      }else{
+        resend(res,401,{'message':'Tidak Ada Data Yang di Perbarui'})
+      }
     }
   })
+
 }
 
+// method insert data
 exports.insert = (table, data, res) => {
   let sql = `INSERT INTO ${table} SET`
   const key = Object.keys(data)
@@ -104,21 +115,39 @@ exports.insert = (table, data, res) => {
   // excute
   connection.query(sql, value, (err, result, rows) => {
     if (err) {
-      status = 401
+      resend(res,404,{'message':'Gagal Menambahkan Data'})
     } else {
-      status = 200
-      console.log(rows)
-      console.log(result)
+      if( rows.affectedRows > 0){
+        resend(res,200,{'message':'Berhasil Menambahkan Data'})
+      }else{
+        resend(res,401,{'message':'Tidak Ada Data Yang ditambahkan'})
+      }
     }
   })
+}
 
-  if (status === 401){
-    res.status(401)
-       .json({ 'message':'Gagal Menambahkan Data' }) 
-  } else {
-    res.status(200)
-       .json({ 'message':'Berhasil Menambahkan Data' })
-  }
+// method delete
+exports.delete = (table, field, value, res) => {
+    connection.query(`DELETE FROM ${table} WHERE ${field}='${value}' `,(err, result)=>{
+      if (err) {
+        resend(res,404,{'message':'Gagal Menghapus Data'})
+      } else {
+        if( result.affectedRows > 0){
+          resend(res,200,{'message':'Berhasil Menghapus Data'})
+        }else{
+          resend(res,401,{'message':'Tidak Ada Data Yang dihapus'})
+        }
+      }
+    })
+}
 
-  res.end()
+// method sql
+exports.sql = (sql, res) => {
+  connection.query(sql,(err,result,rows) => {
+    if (err) {
+      resend(res,404,err)
+    } else {
+      resend(res,200,result)
+    }
+  })
 }
