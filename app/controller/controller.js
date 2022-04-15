@@ -10,5 +10,5 @@ exports.getDataDetail = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
-  await action.update(req.body.data, res)
+  await action.update('express', req.body, res)
 }
