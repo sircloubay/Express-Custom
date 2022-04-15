@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const path = require('path')
 const routes = require('./app/routes/routes')
+const upload = require('express-fileupload')
 const port = 3000
 const app = express()
 
@@ -12,9 +13,10 @@ app.set('view engine', 'ejs')
 
 // configuration
 app.use(cors())
+app.use(upload())
 app.use(bodyParser.json({}))
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, '/public')))
 
 // use routes
 routes(app)
