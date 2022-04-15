@@ -35,8 +35,8 @@ exports.getBy = (req, res) => {
   })
 }
 
-exports.update = (data, res) => {
-  let sql = `UPDATE ${data.table} SET`
+exports.update = (table, data, res) => {
+  let sql = `UPDATE ${table} SET`
   const key = Object.keys(data)
   const value = []
 
@@ -66,9 +66,51 @@ exports.update = (data, res) => {
   // excute
   connection.query(sql, value, (err, rows) => {
     if (err) {
-      throw err
+      res.json(err)
+      res.end()
+    } else {
+      res.json(rows)
+      res.end()
     }
-    res.json(rows)
-    res.end()
+  })
+}
+
+exports.insert = (data, res) => {
+  let sql = `INSERT INTO ${data.table}`
+  const key = Object.keys(data)
+  const value = []
+
+  // length to know position or array
+  let length = key.length
+  length -= 1
+  let index
+
+  for (let i = 0; i < key.length; i++) {
+    if (key[i] !== 'id' && key[i] !== 'table') {
+      // eslint-disable-next-line no-unused-vars
+      index = key.indexOf(key[i])
+      if (index !== length) {
+        sql += ` ${key[i]}=?,`
+        value.push(data[key[i]])
+      } else {
+        sql += ` ${key[i]}=?`
+        value.push(data[key[i]])
+      }
+    }
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  sql += ' WHERE id=?'
+  value.push(data.id)
+
+  // excute
+  connection.query(sql, value, (err, rows) => {
+    if (err) {
+      res.json(err)
+      res.end()
+    } else {
+      res.json(rows)
+      res.end()
+    }
   })
 }
