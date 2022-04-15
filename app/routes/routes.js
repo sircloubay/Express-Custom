@@ -13,5 +13,4 @@ module.exports = (app) => {
   app.put('/update', (req, res) => {
     controller.update(req, res)
   })
-
 }
