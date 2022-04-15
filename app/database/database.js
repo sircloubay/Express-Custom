@@ -75,8 +75,8 @@ exports.update = (table, data, res) => {
   })
 }
 
-exports.insert = (data, res) => {
-  let sql = `INSERT INTO ${data.table}`
+exports.insert = (table, data, res) => {
+  let sql = `INSERT INTO ${table} SET`
   const key = Object.keys(data)
   const value = []
 
@@ -99,18 +99,26 @@ exports.insert = (data, res) => {
     }
   }
 
-  // eslint-disable-next-line no-unused-vars
-  sql += ' WHERE id=?'
-  value.push(data.id)
+  let status = null
 
   // excute
-  connection.query(sql, value, (err, rows) => {
+  connection.query(sql, value, (err, result, rows) => {
     if (err) {
-      res.json(err)
-      res.end()
+      status = 401
     } else {
-      res.json(rows)
-      res.end()
+      status = 200
+      console.log(rows)
+      console.log(result)
     }
   })
+
+  if (status === 401){
+    res.status(401)
+       .json({ 'message':'Gagal Menambahkan Data' }) 
+  } else {
+    res.status(200)
+       .json({ 'message':'Berhasil Menambahkan Data' })
+  }
+
+  res.end()
 }
