@@ -1,33 +1,49 @@
-const controller = require('../controller/controller')
+const session = require('express-session')
+const home = require('../controller/home')
 
 module.exports = (app) => {
   // homepage
   app.get('/',(req, res) => {
-    res.render('index',{
-			title:'Home | StarCode',
-			css : 'index',
-      js: 'null'
-		})
+    if(req.session.userId){
+      res.render('home',{
+        title:'Home | StarCode',
+        css : 'home',
+        js: 'null',
+      })
+    }else{
+      res.end('anda belum login')
+    }
   })
 
   app.get('/data/:table', (req, res) => {
-    controller.getDataCollection(req, res)
+    home.getDataCollection(req, res)
   })
 
   app.get('/data/:table/:field/:value', (req, res) => {
-    controller.getDataDetail(req, res)
+    home.getDataDetail(req, res)
   })
 
   app.put('/', (req, res) => {
-    controller.update(req, res)
+    home.update(req, res)
   })
 
   app.post('/', (req, res) => {
-    controller.insert(req, res)
+    home.insert(req, res)
   })
 
   app.delete('/', (req, res) => {
-    controller.delete(req, res)
+    home.deletes(req, res)
+  })
+
+  app.get('/auth',(req, res) => {
+     req.session.userId = "mansbjdhsfa8765"
+    req.session.save()
+    res.redirect('/')
+  })
+
+  app.get('/logout',(req, res) => {
+    req.session.destroy()
+    res.end('anda telah logout')
   })
 
 }
