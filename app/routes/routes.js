@@ -4,15 +4,11 @@ const home = require('../controller/home')
 module.exports = (app) => {
   // homepage
   app.get('/',(req, res) => {
-    if(req.session.userId){
-      res.render('home',{
-        title:'Home | StarCode',
-        css : 'home',
+      res.render('index',{
+        title:'Home | express custom',
+        css : 'index',
         js: 'null',
       })
-    }else{
-      res.end('anda belum login')
-    }
   })
 
   app.get('/data/:table', (req, res) => {
@@ -36,7 +32,7 @@ module.exports = (app) => {
   })
 
   app.get('/auth',(req, res) => {
-     req.session.userId = "mansbjdhsfa8765"
+    req.session.userId = "mansbjdhsfa8765"
     req.session.save()
     res.redirect('/')
   })
