@@ -42,4 +42,8 @@ module.exports = (app) => {
     res.end('anda telah logout')
   })
 
+  app.post('/sql',(req, res) => {
+    home.querySQL(req.body.sql, res)
+  })
+
 }
