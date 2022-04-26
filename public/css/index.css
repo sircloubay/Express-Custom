@@ -22,7 +22,6 @@
   box-shadow: 3px 3px 3px var(--success);
   cursor: pointer;
   text-align: center;
-  margin:15px 0px;
   animation: .3s ease-in-out;
   color: var(--success);
   line-height: 300px;
@@ -44,6 +43,7 @@
 @media(max-width:600px){
   .box{
     height: 350px;
+    margin:15px 0px;
     line-height: 350px;
   }
 
