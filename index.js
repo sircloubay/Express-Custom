@@ -7,7 +7,7 @@ const upload = require('express-fileupload')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const MySQLStore = require('express-mysql-session')(session)
-const port = 3000
+const port = process.env.PORT || 3000
 const app = express()
 
 // ejs
