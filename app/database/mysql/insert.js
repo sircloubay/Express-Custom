@@ -1,5 +1,4 @@
-const mysql = require('mysql')
-const resend = require('../../helper/resend')
+const resend = require('../../helper/response')
 const connection = require('../../config/mysql-connect')
 
 // method insert data
@@ -34,8 +33,10 @@ module.exports = (table, data, res) => {
     if (err) {
       resend(res,404,{'message':'Gagal Menambahkan Data'})
     } else {
-      if( rows.affectedRows > 0){
-        resend(res,200,{'message':'Berhasil Menambahkan Data'})
+      if( result.affectedRows > 0){
+        let data_insert = data
+            data_insert.id = result.insertId
+        resend(res,200,{'message':'Berhasil Menambahkan Data','result':data_insert,'insert':result.affectedRows})
       }else{
         resend(res,401,{'message':'Tidak Ada Data Yang ditambahkan'})
       }

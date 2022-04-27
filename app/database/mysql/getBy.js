@@ -1,5 +1,4 @@
-const mysql = require('mysql')
-const resend = require('../../helper/resend')
+const resend = require('../../helper/response')
 const connection = require('../../config/mysql-connect')
 
 // method get data by field

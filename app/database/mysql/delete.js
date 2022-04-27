@@ -1,5 +1,4 @@
-const mysql = require('mysql')
-const resend = require('../../helper/resend')
+const resend = require('../../helper/response')
 const connection = require('../../config/mysql-connect')
 
 // method delete
@@ -9,7 +8,7 @@ module.exports = (table, field, value, res) => {
       resend(res,404,{'message':'Gagal Menghapus Data'})
     } else {
       if( result.affectedRows > 0){
-        resend(res,200,{'message':'Berhasil Menghapus Data'})
+        resend(res,200,{'message':'Berhasil Menghapus Data','result':{table,field,value},'delete':result.affectedRows})
       }else{
         resend(res,401,{'message':'Tidak Ada Data Yang dihapus'})
       }

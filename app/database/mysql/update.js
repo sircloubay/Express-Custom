@@ -1,5 +1,4 @@
-const mysql = require('mysql')
-const resend = require('../../helper/resend')
+const resend = require('../../helper/response')
 const connection = require('../../config/mysql-connect')
 
 // method update
@@ -37,7 +36,7 @@ module.exports = (table, data, res) => {
       resend(res,404,{'message':'Gagal Memperbarui Data'})
     } else {
       if( rows.affectedRows > 0){
-        resend(res,200,{'message':'Berhasil Memperbarui Data'})
+        resend(res,200,{'message':'Berhasil Memperbarui Data','result':data})
       }else{
         resend(res,401,{'message':'Tidak Ada Data Yang di Perbarui'})
       }
