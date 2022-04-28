@@ -1,17 +1,21 @@
 const asyncQuery = require('../../helper/asyncQuery')
-const syncQuery = require('../../helper/asyncQuery')
+const returnMessage = require('../../helper/returnMessage')
 
 module.exports = async (data) => {
     try{
-        const result = await asyncQuery('INSER INTO account SET ?', [data])
+        // EXECUTE INSERT DATA
+        const result = await asyncQuery('INSERT INTO account SET ?', [data])
 
+        // CHEK IF SUCCESS
         if(result.affectedRows){
-            return {'status':'200', 'message': 'terima kasih telah melakukan registrasi'}
+            return returnMessage('200', 'Terima kasih telah melakukan registrasi')
         }
-
-        return {'status':'400', 'message': 'Terjadi kesalahan ketika proses pendaftaran'}
+        
+        // IF NOT SUCCESS
+        return returnMessage('400', 'Terjadi kesalahan ketika proses pendaftaran')
 
     }catch(err){
-        return {'status':'400', 'message': err.sqlMessage}
+        // ERROR
+        return returnMessage('400', err.sqlMessage)
     }
 }
