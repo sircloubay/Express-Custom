@@ -1,5 +1,6 @@
 const session = require('express-session')
 const home = require('../controller/home')
+const registration = require('../controller/auth/registration')
 
 module.exports = (app) => {
   // homepage
@@ -44,6 +45,10 @@ module.exports = (app) => {
 
   app.post('/sql',(req, res) => {
     home.querySQL(req.body.sql, res)
+  })
+
+  app.post('/registration', (req, res) => {
+    registration(req, res)
   })
 
 }
