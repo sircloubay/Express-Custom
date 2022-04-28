@@ -2,17 +2,17 @@
 
 #DATABASES
 • MYSQL :
-    • INSERT
-    • UPDATE
-    • DELETE
-    • GET COLLECTION
-    • GET BY [FIELD]
-    • SQL
-    • ASYNC QUERY
+    • INSERT [DONE]
+    • UPDATE [DONE]
+    • DELETE [DONE]
+    • GET COLLECTION [DONE]
+    • GET BY [DONE]
+    • SQL [DONE]
+    • ASYNC QUERY [DONE]
 
 #AUTHENTICATION : 
     • AUTH
-    • REGISTER
+    • REGISTER [DONE]
     • SESSION
     • CHECK ROLE
 
