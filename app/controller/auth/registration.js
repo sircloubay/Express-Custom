@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
             // SEND RESPONSE
             response(res, status, {message})
         }
-
+        
     }catch(err){
         // PROGRAM ERROR
         console.log(err)
