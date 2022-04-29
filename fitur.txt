@@ -11,7 +11,7 @@
     • ASYNC QUERY [DONE]
 
 #AUTHENTICATION : 
-    • AUTH
+    • AUTH []
     • REGISTER [DONE]
     • SESSION
     • CHECK ROLE
