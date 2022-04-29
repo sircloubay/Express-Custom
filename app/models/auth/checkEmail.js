@@ -7,7 +7,6 @@ module.exports = (table, email) => {
     // RESOLVE PROMISE    
    const status = email_status.then((email)=>{
         if(email.length > 0){
-            console.log(`email ini telah digunakan lebih dari 1 kali`)
             return 1
         }else{
             return 0
