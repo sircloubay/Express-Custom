@@ -1,9 +1,11 @@
 const session = require('express-session')
 const home = require('../controller/home')
 const registration = require('../controller/auth/registration')
+const login = require('../controller/auth/login')
 
 module.exports = (app) => {
-  // homepage
+
+  // ROUTE PAGE
   app.get('/',(req, res) => {
       res.render('index',{
         title:'Home | express custom',
@@ -11,7 +13,10 @@ module.exports = (app) => {
         js: 'null',
       })
   })
+  // END ROUTE PAGE
 
+
+  // MYSQL ROUTE TESTING
   app.get('/data/:table', (req, res) => {
     home.getDataCollection(req, res)
   })
@@ -32,23 +37,20 @@ module.exports = (app) => {
     home.deletes(req, res)
   })
 
-  app.get('/auth',(req, res) => {
-    req.session.userId = "mansbjdhsfa8765"
-    req.session.save()
-    res.redirect('/')
-  })
-
-  app.get('/logout',(req, res) => {
-    req.session.destroy()
-    res.end('anda telah logout')
-  })
-
   app.post('/sql',(req, res) => {
     home.querySQL(req.body.sql, res)
   })
+  // END MYSQL ROUTE
 
+
+  // AUTHENTICATION ROUTE
   app.post('/registration', (req, res) => {
     registration(req, res)
   })
+
+  app.post('/login', (req, res) =>{
+    login(req, res)
+  })
+  // END AUTHENTICATION ROUTE
 
 }
