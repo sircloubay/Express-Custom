@@ -1,32 +1,31 @@
-const asyncQuery = require('../../helper/asyncQuery')
 const bcrypt = require('bcrypt')
+const asyncQuery = require('../../helper/asyncQuery')
+const returnMessage = require('../../helper/returnMessage')
 
-module.exports = async ({ username, password }) => {
+module.exports = async ({ email, password }) => {
     try {
-        if (username && password) {
-            const users = await asyncQuery('SELECT * FROM users WHERE username = ?', [username])
-            if (users.length === 0) {
-                return { status: 404, messages: 'Tidak dapat menemukan akun dengan username tersebut' }
-            }
+        // QUERY TO KNOW DATA USER EXIST OR NAH 
+        const users = await asyncQuery('SELECT * FROM account WHERE email = ?', [email])
 
-            const user = users[0]
-            const match = await bcrypt.compare(password, user.password)
-
-            if (match) {
-                return { status: 200, messages: 'Login sukses', data: { user_id: user.user_id } }
-            } else {
-                return { status: 400, messages: 'Password tidak cocok' }
-            }
-        } else {
-            const users = await asyncQuery('SELECT * FROM users WHERE username = ?', [username])
-            if (users.length === 0) {
-                return { status: 400, messages: 'Tidak dapat menemukan akun dengan username tersebut' }
-            }
-
-            return { status: 202, messages: 'Username ditemukan' }
+        // IF DATA USER NOT FOUND
+        if (users.length === 0) {
+            return returnMessage(404, 'Tidak dapat menemukan akun dengan email tersebut')
         }
+
+        // COMPARE PASSWORD
+        const user = users[0]
+        const match = await bcrypt.compare(password, user.password)
+
+        // CHECK PASSWORD IS SAME OR NAH
+        if (match) {
+            return { status: 200, messages: 'Login sukses', data: { user_id: user.id } }
+        } else {
+            return returnMessage(400, 'Password tidak cocok dengan email tersebut')
+        }
+
     } catch (error) {
+        // ERRORR
         console.error(error)
-        return { status: 500, messages: 'Terjadi kesalahan saat proses login!' }
+        return returnMessage(500, 'Terjadi Kesalahan saat proses login')
     }
 }
