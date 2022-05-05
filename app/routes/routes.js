@@ -2,6 +2,7 @@ const session = require('express-session')
 const home = require('../controller/home')
 const registration = require('../controller/auth/registration')
 const login = require('../controller/auth/login')
+const secure = require('../helper/session')
 
 module.exports = (app) => {
 
@@ -12,6 +13,21 @@ module.exports = (app) => {
         css : 'index',
         js: 'null',
       })
+  })
+
+  app.get('/dashboard',[secure], (req, res)=>{
+    res.end(req.session.id)
+  })
+
+  app.get('/login', (req, res) =>{
+    req.session.destroy()
+    res.end("login dulu gan")
+  })
+
+  app.get('/session', (req, res) =>{
+    req.session.user_id = "bayuu"
+    req.session.save()
+    res.end("sudah login")
   })
   // END ROUTE PAGE
 

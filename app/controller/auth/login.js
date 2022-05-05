@@ -1,3 +1,4 @@
+const session = require('express-session')
 const response = require('../../helper/response')
 const login = require('../../models/auth/login')
 
@@ -16,6 +17,8 @@ module.exports = async (req, res) => {
         
         // CHEK IF SUCCESS
         if(user.status === 200){
+            req.session.user_id = user.user_id
+            req.session.save()
             response(res, 200, user)
         }else{
             response(res, 200, user)
